@@ -11,7 +11,7 @@ let user;
 let room;
 
 socket.on("open", () => {
-  socket.send(JSON.stringify({Teste: "Ola" }));
+  
 });
 
 socket.on("message", (data) => {
@@ -23,6 +23,10 @@ socket.on("message", (data) => {
   if(obj.command === 'joined_room'){
     room = obj.data;
     inRoom = true;
+
+    console.log(`Você está na sala: ${room}`);
+    console.log("Se você for administrador pode digitar '/ban nome_do_usuario' para banir um usuário da sala");
+    console.log("Você pode a qualquer momento digitar '/quit' para sair da sala");
   }
 
   if(obj.command === 'message'){
@@ -39,20 +43,18 @@ socket.on("message", (data) => {
   if(obj.command === 'failed_to_join'){
     console.log(obj.data);
   }
-
-  console.log(user);
 });
 
 console.log("Digite:"+
-                "\n>>>/join nome_da_sala para entrar numa das salas existentes"+
-                "\n>>>/create nome_da_sala para criar uma sala nova se for administrador"+
-                "\n>>>/delete nome_da_sala para deletar uma sala nova se for administrador");
+                "\n>>>'/join nome_da_sala' -> para entrar numa das salas existentes"+
+                "\n>>>'/create nome_da_sala' -> para criar uma sala nova se for administrador"+
+                "\n>>>'/delete nome_da_sala' -> para deletar uma sala nova se for administrador");
 
 rl.on('line', line => {
-  if (line === "FIM") {
-      rl.close();
+  // if (line === "FIM") {
+  //     rl.close();
+  // }
+  if(line.slice(0,5)==="/join" && (inRoom === false)){ 
+    socket.send(JSON.stringify({user: user, command: 'join', data: line.slice(6)}));
   }
-  
-  // imprime na tela a linha digitada
-  console.log("Linha digitada: " + line);
 });
