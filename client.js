@@ -18,29 +18,21 @@ socket.on("message", (data) => {
   const obj = JSON.parse(data);
   if(obj.command === 'create_user'){
     user = obj.user;
-  }
-
-  if(obj.command === 'joined_room'){
+  }else if(obj.command === 'joined_room'){
     room = obj.data;
     inRoom = true;
 
     console.log(`Você está na sala: ${room}`);
     console.log("Se você for administrador pode digitar '/ban nome_do_usuario' para banir um usuário da sala");
     console.log("Você pode a qualquer momento digitar '/quit' para sair da sala");
-  }
-
-  if(obj.command === 'message'){
+  }else if(obj.command === 'message'){
     console.log(`>>>${obj.user}: ${obj.data}`)
-  }
-
-  if(obj.command === 'list_rooms'){
+  }else if(obj.command === 'list_rooms'){
     console.log("Salas")
     obj.data.map((room) => {
       console.log(`>>>${room.room}`);
     })
-  }
-
-  if(obj.command === 'failed_to_join'){
+  }else if(obj.command === 'failed_to_join'){
     console.log(obj.data);
   }
 });
@@ -56,5 +48,8 @@ rl.on('line', line => {
   // }
   if(line.slice(0,5)==="/join" && (inRoom === false)){ 
     socket.send(JSON.stringify({user: user, command: 'join', data: line.slice(6)}));
+  } else if(inRoom===true){
+    socket.send(JSON.stringify({user: user, command: 'message', data: {room, message: line}}));
   }
+
 });

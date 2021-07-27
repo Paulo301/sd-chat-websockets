@@ -13,8 +13,8 @@ wss.on('connection', function connection(ws) {
 
     if(obj.command === 'join'){
       const tempRoom = rooms.find((room) => room.room === obj.data);
-      tempRoom.participants.push(obj.user);
       if(tempRoom !== undefined){
+        tempRoom.participants.push(obj.user);
         rooms = rooms.map((room) => {
           if(room.room === tempRoom.room){
             return tempRoom;
@@ -29,6 +29,19 @@ wss.on('connection', function connection(ws) {
       }
 
       console.log(rooms);
+    }else if(obj.command === 'message'){
+      const tempRoom = rooms.find((room) => room.room === obj.data.room);
+      const indexes = users.map((user, index) => {
+        if(tempRoom.participants.includes(user.user) && (user.user !== obj.user)){
+          console.log("Aqui");
+          return index;
+        }
+      });
+      indexes.map((i) => {
+        if(i!==undefined){
+          usersWS[i].send(JSON.stringify({user: obj.user, command: "message", data: obj.data.message}))
+        }
+      });
     }
   });
 
