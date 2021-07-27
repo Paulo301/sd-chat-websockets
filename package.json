@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node index.js",
     "client1": "node client.js",
-    "client2": "node client1.js"
+    "client2": "node client1.js",
+    "client3": "node client2.js"
   },
   "dependencies": {
     "ws": "^7.5.3"
