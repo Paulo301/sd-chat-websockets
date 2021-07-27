@@ -5,6 +5,11 @@
   "repository": "https://github.com/Paulo301/sd-chat-websockets.git",
   "author": "Paulo301 <paulovictor1918@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "client1": "node client.js",
+    "client2": "node client1.js"
+  },
   "dependencies": {
     "ws": "^7.5.3"
   }
