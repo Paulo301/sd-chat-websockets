@@ -1,0 +1,11 @@
+{
+  "name": "sd-chat-websockets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Paulo301/sd-chat-websockets.git",
+  "author": "Paulo301 <paulovictor1918@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^7.5.3"
+  }
+}
